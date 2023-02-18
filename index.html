@@ -5,6 +5,48 @@
   </head>
   <body>
     <h1>Top Dividend-Paying Stocks</h1>
-    {{ dividend_table | safe }}
+    {{ dividend_table|safe }}
+
+    <h2>My Portfolio</h2>
+    <form method="POST">
+      <label for="symbol">Symbol:</label>
+      <input type="text" id="symbol" name="symbol"><br><br>
+
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" name="quantity"><br><br>
+
+      <label for="cost_basis">Cost Basis:</label>
+      <input type="number" id="cost_basis" name="cost_basis"><br><br>
+
+      <input type="submit" value="Add">
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Quantity</th>
+          <th>Cost Basis</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for stock in portfolio %}
+          <tr>
+            <td>{{ stock.symbol }}</td>
+            <td>{{ stock.quantity }}</td>
+            <td>{{ stock.cost_basis }}</td>
+            <td>{{ stock.quantity * get_latest_price(stock.symbol)|round(2) }}</td>
+          </tr>
+        {% endfor %}
+        <tr>
+          <td>Total</td>
+          <td></td>
+          <td></td>
+          <td>{{ portfolio_value|round(2) }}</td>
+        </tr>
+      </tbody>
+    </table>
   </body>
 </html>
+
